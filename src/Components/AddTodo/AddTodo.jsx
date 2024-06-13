@@ -10,7 +10,10 @@ export const AddTodo = ({ updateList }) => {
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
             />
-            <button onClick={() => updateList(inputText)}>Add</button>
+            <button onClick={() => {
+                updateList(inputText)
+                setInputText('')
+            }}>Add</button>
         </div>
     )
 }
