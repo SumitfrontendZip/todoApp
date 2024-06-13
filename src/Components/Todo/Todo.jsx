@@ -16,7 +16,7 @@ export const Todo = ({ todoData, isFinished, changeFinished, onDelete, onEdit })
             <button onClick={() => {
                 setIsEditing(!isEditing)
                 onEdit(editText)
-            }}>Edit</button>
+            }}>{!isEditing ? 'Edit' : 'Save'}</button>
             <button onClick={onDelete}>Delete</button>
         </div>
     )

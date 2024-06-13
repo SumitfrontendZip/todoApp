@@ -1,36 +1,26 @@
 import { useContext } from "react"
 import { Todo } from "../Todo/Todo"
 import TodoContext from "../../TodoContext/TodoContext"
+import TodoDispatchContext from "../../TodoContext/TodoDispatchContext"
 
 export const TodoList = () => {
-    const { list, setList } = useContext(TodoContext)
+    const { list } = useContext(TodoContext)
+    const { dispatch } = useContext(TodoDispatchContext)
 
     const onFinished = (todo, isFinished) => {
-        const updateList = list.map((t) => {
-            if (t.id === todo.id) {
-                todo.finished = isFinished
-            }
-            return t;
-        })
-        setList(updateList)
+        console.log(isFinished);
+        dispatch({ type: 'finish_todo', payload: { todo, isFinished: isFinished } })
     }
 
-    const onEdit = (todoText, todo) => {
-        const updatedList = list.map((t) => {
-            if (t.id === todo.id) {
-                todo.todoData = todoText
-            }
-            return t;
-        });
-        setList(updatedList)
+    const onEdit = (todo, todoText) => {
+        console.log(todoText);
+        dispatch({ type: 'edit_todo', payload: { todoText: todoText, todo: todo } })
     }
 
     const onDelete = (todo) => {
-        const updatedList = list.filter((t) => t.id !== todo.id)
-        setList(updatedList)
+        dispatch({ type: 'delete_todo', payload: { todo } })
     }
-    
-    console.log(list);
+
     return (
         <div>
             {list.length > 0 &&
@@ -39,9 +29,13 @@ export const TodoList = () => {
                         key={todo.id}
                         id={todo.id}
                         todoData={todo.todoData}
-                        changeFinished={(isFinished) => onFinished(todo, isFinished)}
+                        changeFinished={(isFinished) => {
+                            onFinished(todo, isFinished)
+                            console.log(isFinished);
+                        }
+                        }
                         onDelete={() => onDelete(todo)}
-                        onEdit={onEdit}
+                        onEdit={(todoText) => onEdit(todo, todoText)}
                     />
                 )
             }
